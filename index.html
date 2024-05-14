@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles.css">
+    <title>Template</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    // App component
+    let App = () => {
+        // creating the state for hobbies
+      let [hobbies, setHobbies] = React.useState([""]);
+        // creating the function to handle input change
+      let handleInputChange = (index, event) => {
+        let newHobbies = [...hobbies];
+        newHobbies[index] = event.target.value;
+        setHobbies(newHobbies);
+      };
+
+    //   function to handle hobby change
+      let handleAddHobby = () => {
+        setHobbies([...hobbies, ""]);
+      };
+// function to remove hobby
+      let handleRemoveHobby = (index) => {
+        let newHobbies = hobbies.filter((hobby, i) => i !== index);
+        setHobbies(newHobbies);
+      };
+// function to submit the form
+      let handleSubmit = (event) => {
+        event.preventDefault();
+        console.log(hobbies);
+      };
+
+      return (
+        <div>
+            <h1>Add your hobbies</h1>
+          <form onSubmit={handleSubmit}>
+            {hobbies.map((hobby, index) => (
+              <div key={index}>
+                <input
+                  type="text"
+                  value={hobby}
+                  placeholder="Enter the hobby"
+                  onChange={(event) => handleInputChange(index, event)}
+                />
+                {index === 0 ? (
+                  <button type="button" onClick={handleAddHobby}>
+                    Add Hobby
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveHobby(index)}
+                  >
+                    Remove Hobby
+                  </button>
+                )}
+              </div>
+            ))}
+            <button type="submit">Submit</button>
+          </form>
+        </div>
+      );
+    };
+
+    let reactRoot = ReactDOM.createRoot(document.getElementById("root"));
+    reactRoot.render(<App />);
+  </script>
+</html>
